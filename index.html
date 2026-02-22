@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRT Shader GUI</title>
+    <link rel="stylesheet" href="./src/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Top right or bottom left Image Upload button -->
+    <div class="upload-container">
+        <label for="image-upload" class="upload-btn">Upload Image</label>
+        <input type="file" id="image-upload" accept="image/*" />
+    </div>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <!-- Header -->
+            <div class="panel-header">
+                <span>— CRT Template</span>
+            </div>
+
+            <!-- Presets area -->
+            <div class="presets-area">
+                <div class="preset-input-row">
+                    <input type="text" placeholder="Preset name..." />
+                    <button class="icon-btn">💾</button>
+                    <button class="icon-btn">📋</button>
+                </div>
+                <div class="preset-chips">
+                    <div class="chip">Defaults <span>x</span></div>
+                    <div class="chip active">test <span>x</span></div>
+                </div>
+            </div>
+
+            <!-- LAYOUT -->
+            <div class="group-label" style="color: #ff5555;">LAYOUT</div>
+            <div class="btn-group toggle-group" data-id="mask_type">
+                <button class="color-btn bg-red active" data-val="0">dot-triad</button>
+                <button class="color-btn bg-red-1" data-val="1">slot-row-brick</button>
+                <button class="color-btn bg-red-2" data-val="2">slot-column-brick</button>
+                <button class="color-btn bg-red-3" data-val="3">slot-grid</button>
+            </div>
+
+            <!-- SCAN MODE -->
+            <div class="group-label" style="color: #ff88cc;">SCAN MODE</div>
+            <div class="btn-group toggle-group" data-id="scan_mode">
+                <button class="color-btn bg-pink active" data-val="0">off</button>
+                <button class="color-btn bg-pink-1" data-val="1">head</button>
+                <button class="color-btn bg-pink-2" data-val="2">age</button>
+                <button class="color-btn bg-pink-3" data-val="3">gate</button>
+                <button class="color-btn bg-pink-4" data-val="4">persistence</button>
+            </div>
+
+            <!-- SCAN DIRECTION -->
+            <div class="group-label" style="color: #44aaff;">SCAN DIRECTION</div>
+            <div class="btn-group toggle-group" data-id="scan_direction">
+                <button class="color-btn bg-blue active" data-val="0">L->R</button>
+                <button class="color-btn bg-blue-1" data-val="1">R->L</button>
+            </div>
+
+            <!-- BEAM MODE -->
+            <div class="group-label" style="color: #22ccaa;">BEAM MODE</div>
+            <div class="btn-group toggle-group" data-id="beam_mode">
+                <button class="color-btn bg-teal active" data-val="0">direct</button>
+                <button class="color-btn bg-teal-1" data-val="1">simulated</button>
+            </div>
+
+            <!-- BLOOM Header -->
+            <div class="bloom-header">
+                <span>—</span>
+                <span>Bloom</span>
+            </div>
+
+            <!-- Sliders -->
+            <!-- Each slider has a data-color attribute for the fill bar -->
+            <div class="sliders-container">
+                <div class="custom-slider" data-id="bloom_strength" data-min="0" data-max="5" data-step="0.01"
+                    data-val="2.50" data-color="#3b887a"></div>
+                <div class="custom-slider" data-id="bloom_threshold" data-min="0" data-max="1" data-step="0.01"
+                    data-val="0.00" data-color="#7bb5a6"></div>
+                <div class="custom-slider" data-id="bloom_softness" data-min="0" data-max="0.1" data-step="0.001"
+                    data-val="0.001" data-color="#c4d5f2"></div>
+                <div class="custom-slider" data-id="bloom_radius" data-min="0" data-max="10" data-step="0.01"
+                    data-val="3.05" data-color="#b64f7b"></div>
+
+                <div class="custom-slider" data-id="frame_rate" data-min="1" data-max="144" data-step="1"
+                    data-val="60.00" data-color="#a4336c"></div>
+                <div class="custom-slider" data-id="beam_radius" data-min="1" data-max="20" data-step="0.1"
+                    data-val="6.0" data-color="#e27c65"></div>
+                <div class="custom-slider" data-id="beam_softness" data-min="0" data-max="20" data-step="0.1"
+                    data-val="8.0" data-color="#d98941"></div>
+                <div class="custom-slider" data-id="phosphor_decay" data-min="0" data-max="50" data-step="0.1"
+                    data-val="10.6" data-color="#e3b44b"></div>
+                <div class="custom-slider" data-id="beam_deposit" data-min="0" data-max="500" data-step="1"
+                    data-val="160.0" data-color="#9ebd39"></div>
+
+                <div class="custom-slider" data-id="virtual_height" data-min="10" data-max="1080" data-step="1"
+                    data-val="60" data-color="#e2d87e"></div>
+                <div class="custom-slider" data-id="triad_pitch_x" data-min="0" data-max="2" data-step="0.001"
+                    data-val="0.720" data-color="#abc884"></div>
+                <div class="custom-slider" data-id="triad_pitch_y" data-min="0" data-max="2" data-step="0.001"
+                    data-val="0.200" data-color="#9ad1b4"></div>
+                <div class="custom-slider" data-id="slot_pixel_pitch" data-min="0" data-max="2" data-step="0.001"
+                    data-val="0.720" data-color="#5588c2"></div>
+
+                <div class="custom-slider" data-id="triad_row_shift" data-min="0" data-max="1" data-step="0.01"
+                    data-val="0.17" data-color="#7663a7"></div>
+                <div class="custom-slider" data-id="row_brick_shift" data-min="0" data-max="1" data-step="0.01"
+                    data-val="0.50" data-color="#d684af"></div>
+                <div class="custom-slider" data-id="column_brick_shift" data-min="0" data-max="1" data-step="0.01"
+                    data-val="0.50" data-color="#eb7660"></div>
+
+                <div class="custom-slider" data-id="dot_radius" data-min="0" data-max="0.5" data-step="0.001"
+                    data-val="0.096" data-color="#deac69"></div>
+                <div class="custom-slider" data-id="slot_width" data-min="0" data-max="1" data-step="0.001"
+                    data-val="0.160" data-color="#e6dc7e"></div>
+                <div class="custom-slider" data-id="slot_height" data-min="0" data-max="2" data-step="0.01"
+                    data-val="0.620" data-color="#a4be35"></div>
+                <div class="custom-slider" data-id="slot_exponent" data-min="1" data-max="10" data-step="0.01"
+                    data-val="8.00" data-color="#4aa8a7"></div>
+                <div class="custom-slider" data-id="edge_softness" data-min="0" data-max="0.05" data-step="0.0001"
+                    data-val="0.0072" data-color="#8ba8d7"></div>
+                <div class="custom-slider" data-id="triad_phase" data-min="-5" data-max="5" data-step="0.1" data-val="0"
+                    data-color="#cdbbde"></div>
+            </div>
+        </aside>
+
+        <main class="viewport">
+            <canvas id="crt-canvas"></canvas>
+        </main>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+</body>
+
+</html>
