@@ -6,7 +6,7 @@ import { crtVertexShader, crtFragmentShader } from './shader.js';
 
 // Setup basic Three.js scene
 const canvas = document.getElementById('crt-canvas');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(window.devicePixelRatio);
 
 const scene = new THREE.Scene();
@@ -240,6 +240,7 @@ uploadInput.addEventListener('change', (e) => {
     planeMaterial.needsUpdate = true;
 
     hasImage = true;
+    document.getElementById('download-btn').classList.remove('hidden');
 
     // Switch Context
     group3D.visible = false;
@@ -251,6 +252,17 @@ uploadInput.addEventListener('change', (e) => {
 
     resize();
   });
+});
+
+// Download Handler
+const downloadBtn = document.getElementById('download-btn');
+downloadBtn.addEventListener('click', () => {
+  composer.render();
+  const dataURL = canvas.toDataURL('image/png');
+  const link = document.createElement('a');
+  link.download = 'crt-sim-export.png';
+  link.href = dataURL;
+  link.click();
 });
 
 
