@@ -99,7 +99,13 @@ function resize() {
     const aspect = w / h;
     const img = planeMaterial.map ? planeMaterial.map.image : null;
     let imgAspect = 1;
-    if (img) imgAspect = img.width / img.height;
+    if (img) {
+      if (img.videoWidth) {
+        imgAspect = img.videoWidth / img.videoHeight;
+      } else {
+        imgAspect = img.width / img.height;
+      }
+    }
 
     // Setup ortho frame for resolution aspect
     orthoCamera.left = -aspect;
@@ -225,33 +231,60 @@ toggleGroups.forEach(group => {
 
 
 // --- Image Upload Handler ---
+// Hidden video element for VideoTextures
+const videoEl = document.createElement('video');
+videoEl.muted = true;
+videoEl.loop = true;
+videoEl.playsInline = true;
+
 const uploadInput = document.getElementById('image-upload');
 uploadInput.addEventListener('change', (e) => {
   const file = e.target.files[0];
   if (!file) return;
 
   const url = URL.createObjectURL(file);
-  const loader = new THREE.TextureLoader();
-  loader.load(url, (texture) => {
-    texture.colorSpace = THREE.SRGBColorSpace;
-    texture.minFilter = THREE.LinearFilter;
 
-    planeMaterial.map = texture;
-    planeMaterial.needsUpdate = true;
+  if (file.type.startsWith('video/')) {
+    videoEl.src = url;
+    videoEl.onloadedmetadata = () => {
+      videoEl.play();
+      const texture = new THREE.VideoTexture(videoEl);
+      texture.colorSpace = THREE.SRGBColorSpace;
+      texture.minFilter = THREE.LinearFilter;
 
-    hasImage = true;
-    document.getElementById('download-btn').classList.remove('hidden');
+      planeMaterial.map = texture;
+      planeMaterial.needsUpdate = true;
 
-    // Switch Context
-    group3D.visible = false;
-    imagePlane.visible = true;
+      hasImage = true;
+      document.getElementById('download-btn').classList.remove('hidden');
 
-    // Switch camera
-    currentCamera = orthoCamera;
-    renderPass.camera = currentCamera;
+      group3D.visible = false;
+      imagePlane.visible = true;
+      currentCamera = orthoCamera;
+      renderPass.camera = currentCamera;
 
-    resize();
-  });
+      resize();
+    };
+  } else {
+    const loader = new THREE.TextureLoader();
+    loader.load(url, (texture) => {
+      texture.colorSpace = THREE.SRGBColorSpace;
+      texture.minFilter = THREE.LinearFilter;
+
+      planeMaterial.map = texture;
+      planeMaterial.needsUpdate = true;
+
+      hasImage = true;
+      document.getElementById('download-btn').classList.remove('hidden');
+
+      group3D.visible = false;
+      imagePlane.visible = true;
+      currentCamera = orthoCamera;
+      renderPass.camera = currentCamera;
+
+      resize();
+    });
+  }
 });
 
 // Download Handler
